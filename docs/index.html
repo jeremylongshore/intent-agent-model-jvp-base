@@ -244,6 +244,7 @@
             <a href="#architecture">Architecture</a>
             <a href="#workflow">Workflow</a>
             <a href="#coordination">A2A Coordination</a>
+            <a href="#industries">Industry Examples</a>
             <a href="#deployment">Deployment</a>
             <a href="https://github.com/jeremylongshore/iam1-regional-manager" target="_blank">GitHub</a>
         </nav>
@@ -423,6 +424,113 @@ graph TB
                 </div>
             </section>
 
+
+            <!-- Industry Examples Section -->
+            <section id="industries" class="section">
+                <h2>🏢 Real-World Industry Examples</h2>
+                <p>See how IAM1's hierarchical architecture adapts to different industries with symbolic representation of multi-level agent coordination.</p>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Regional Law Firm - Multi-Office Coordination</div>
+                    <div class="mermaid">
+graph TB
+    Partners[👥 Multiple Partners<br/>Shared Access] -->|Queries| IAM1[⚖️ IAM1: Firm Operations Manager<br/>Gemini 2.0 Flash]
+
+    IAM1 -->|Commands| IAM2_PI[💼 IAM2: Personal Injury<br/>Practice Leader]
+    IAM1 -->|Commands| IAM2_EST[📜 IAM2: Estate Litigation<br/>Practice Leader]
+    IAM1 -->|Commands| IAM2_REF[🔄 IAM2: Referral Network<br/>Manager]
+
+    IAM2_PI -->|Commands| IAM3_PI_Group["🏛️ IAM3 Offices (3)<br/>Mobile • Pensacola • Birmingham"]
+    IAM2_EST -->|Commands| IAM3_EST_Group["🏛️ IAM3 Offices (3)<br/>Mobile • Pensacola • Birmingham"]
+    IAM2_REF -->|Coordinates| IAM3_REF_Group["🤝 IAM3 Referral Partners (4+)<br/>Criminal • Family • Business • Immigration"]
+
+    IAM3_PI_Group -->|Commands| IAM4_PI_Teams["⚙️ IAM4 Teams (12 total)<br/>4 per office:<br/>• Contract Review<br/>• Due Diligence<br/>• Legal Research<br/>• Client Communications"]
+
+    IAM3_EST_Group -->|Commands| IAM4_EST_Teams["⚙️ IAM4 Teams (12 total)<br/>4 per office:<br/>• Probate Processing<br/>• Will Contests<br/>• Estate Planning<br/>• Trust Administration"]
+
+    IAM3_REF_Group -->|Commands| IAM4_REF_Teams["⚙️ IAM4 Teams (16 total)<br/>4 per specialty:<br/>• Qualification<br/>• Attorney Matching<br/>• Introduction<br/>• Follow-up Tracking"]
+
+    style IAM1 fill:#667eea,stroke:#333,stroke-width:4px,color:#fff
+    style IAM2_PI fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM2_EST fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM2_REF fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM3_PI_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM3_EST_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM3_REF_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_PI_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_EST_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_REF_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style Partners fill:#764ba2,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Regional Auto Dealer Group - Multi-Brand Operations</div>
+                    <div class="mermaid">
+graph TB
+    DSM[🎯 Dealer Sales Manager<br/>Multi-Brand Access] -->|Queries| IAM1[🚗 IAM1: Regional Auto Group<br/>Operations Manager<br/>Gemini 2.0 Flash]
+
+    IAM1 -->|Commands| IAM2_NEW[🆕 IAM2: New Car Sales<br/>Practice Leader]
+    IAM1 -->|Commands| IAM2_USED[♻️ IAM2: Used Car Sales<br/>Practice Leader]
+    IAM1 -->|Commands| IAM2_SERVICE[🔧 IAM2: Service & Parts<br/>Practice Leader]
+
+    IAM2_NEW -->|Commands| IAM3_NEW_Group["🏪 IAM3 Brand Locations (3)<br/>Ford • Chevrolet • Toyota"]
+    IAM2_USED -->|Commands| IAM3_USED_Group["🏪 IAM3 Locations (3)<br/>Mobile • Pensacola • Panama City"]
+    IAM2_SERVICE -->|Commands| IAM3_SERVICE_Group["🏪 IAM3 Service Centers (3)<br/>Mobile • Pensacola • Panama City"]
+
+    IAM3_NEW_Group -->|Commands| IAM4_NEW_Teams["⚙️ IAM4 Teams (12 total)<br/>4 per brand:<br/>• Lead Qualification<br/>• Inventory Matcher<br/>• Finance Pre-Approval<br/>• Trade-In Appraiser"]
+
+    IAM3_USED_Group -->|Commands| IAM4_USED_Teams["⚙️ IAM4 Teams (12 total)<br/>4 per location:<br/>• Vehicle History Reporter<br/>• Pricing Optimizer<br/>• Cross-Brand Matcher<br/>• Warranty Builder"]
+
+    IAM3_SERVICE_Group -->|Commands| IAM4_SERVICE_Teams["⚙️ IAM4 Teams (12 total)<br/>4 per center:<br/>• Appointment Scheduler<br/>• Diagnostic Assistant<br/>• Parts Sourcing<br/>• Recall/Maintenance Reminders"]
+
+    style IAM1 fill:#667eea,stroke:#333,stroke-width:4px,color:#fff
+    style IAM2_NEW fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM2_USED fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM2_SERVICE fill:#48bb78,stroke:#333,stroke-width:3px,color:#fff
+    style IAM3_NEW_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM3_USED_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM3_SERVICE_Group fill:#ed8936,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_NEW_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_USED_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style IAM4_SERVICE_Teams fill:#9f7aea,stroke:#333,stroke-width:2px,color:#fff
+    style DSM fill:#764ba2,stroke:#333,stroke-width:2px,color:#fff
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>⚖️ Law Firm Use Case</h3>
+                        <ul>
+                            <li>Multi-partner shared access</li>
+                            <li>Practice area specialization</li>
+                            <li>Cross-office coordination</li>
+                            <li>Automated referral routing</li>
+                            <li>Case management at scale</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🚗 Auto Dealer Use Case</h3>
+                        <ul>
+                            <li>Multi-brand inventory</li>
+                            <li>Cross-location coordination</li>
+                            <li>Service-sales integration</li>
+                            <li>Customer lifecycle management</li>
+                            <li>Lead routing & qualification</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🏢 Both Examples Show</h3>
+                        <ul>
+                            <li>1 IAM1 (firm/regional level)</li>
+                            <li>3 IAM2s (practice/department)</li>
+                            <li>9 IAM3s (offices/locations)</li>
+                            <li>36+ IAM4s (specialist teams)</li>
+                            <li>~$3,000/month total cost</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
             <!-- Deployment Section -->
             <section id="deployment" class="section">
                 <h2>🚀 Deployment Pipeline</h2>

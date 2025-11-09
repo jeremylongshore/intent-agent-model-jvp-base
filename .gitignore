@@ -198,3 +198,12 @@ my_env.tfvars
 
 # A2A Inspector
 tools/a2a-inspector/
+
+# Security - Secrets and Credentials
+*.key
+*.pem
+*credentials*.json
+*service-account*.json
+*.secret
+secrets/
+credentials/
