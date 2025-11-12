@@ -1,0 +1,208 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "DEPLOY" to confirm production deployment'
+        required: true
+        default: ''
+
+env:
+  PYTHON_VERSION: "3.11"
+  REGION: "us-central1"
+
+jobs:
+  validate:
+    name: Validate Deployment Request
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+            echo "❌ Deployment not confirmed. Please type 'DEPLOY' to proceed."
+            exit 1
+          fi
+          echo "✅ Deployment confirmed"
+
+  deploy:
+    name: Deploy to Vertex AI Agent Engine (Production)
+    runs-on: ubuntu-latest
+    needs: validate
+    environment:
+      name: production
+      url: https://console.cloud.google.com/ai/platform/locations/${{ env.REGION }}/reasoning-engines
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY_PROD }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID_PROD }}
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: |
+          uv pip install --system -e .
+          uv pip install --system google-cloud-aiplatform
+
+      - name: Configure Slack secrets
+        run: |
+          # Store Slack tokens in Google Secret Manager
+          echo "${{ secrets.SLACK_BOT_TOKEN }}" | gcloud secrets versions add slack-bot-token --data-file=-
+          echo "${{ secrets.SLACK_SIGNING_SECRET }}" | gcloud secrets versions add slack-signing-secret --data-file=-
+          echo "${{ secrets.SLACK_APP_TOKEN }}" | gcloud secrets versions add slack-app-token --data-file=-
+
+      - name: Backup existing agent (if exists)
+        run: |
+          # List existing agents
+          gcloud ai reasoning-engines list --region=${{ env.REGION }} --format="value(name)" > existing_agents.txt || true
+
+      - name: Deploy to Vertex AI Agent Engine
+        run: |
+          python - <<EOF
+          import os
+          from google.cloud import aiplatform
+          from app.agent import supreme_commander
+
+          # Initialize Vertex AI
+          aiplatform.init(
+              project="${{ secrets.GCP_PROJECT_ID_PROD }}",
+              location="${{ env.REGION }}",
+          )
+
+          # Deploy agent to Agent Engine
+          from google.cloud.aiplatform import reasoning_engines
+
+          deployed_agent = reasoning_engines.ReasoningEngine.create(
+              reasoning_engine=supreme_commander,
+              requirements=[
+                  "google-cloud-aiplatform>=1.60.0",
+                  "google-adk-python>=0.1.0",
+                  "slack-bolt>=1.18.0",
+                  "firebase-admin>=6.5.0",
+                  "google-cloud-discoveryengine>=0.11.0",
+                  "google-cloud-firestore>=2.16.0",
+              ],
+              display_name="supreme-commander-production",
+              description="Supreme Commander Agent - Production Environment",
+              extra_packages=["."],
+          )
+
+          print(f"✅ Agent deployed to production successfully!")
+          print(f"Resource name: {deployed_agent.resource_name}")
+
+          # Save resource name
+          with open("agent_resource_name.txt", "w") as f:
+              f.write(deployed_agent.resource_name)
+          EOF
+
+      - name: Run production health checks
+        run: |
+          AGENT_RESOURCE_NAME=$(cat agent_resource_name.txt)
+
+          python - <<EOF
+          from google.cloud import aiplatform
+          import time
+
+          agent = aiplatform.ReasoningEngine("$AGENT_RESOURCE_NAME")
+
+          # Test 1: Basic operational check
+          response = agent.query(input="System check: Are you operational?")
+          assert "operational" in response.get("output", "").lower(), "Agent not operational"
+          print("✅ Test 1: Agent is operational")
+
+          # Test 2: Knowledge retrieval (if enabled)
+          response = agent.query(input="What are your capabilities?")
+          assert len(response.get("output", "")) > 0, "Agent not responding properly"
+          print("✅ Test 2: Agent responding to queries")
+
+          # Test 3: Tool access
+          response = agent.query(input="Create a test task plan for deploying a new feature")
+          assert "plan" in response.get("output", "").lower(), "Agent tool use may be impaired"
+          print("✅ Test 3: Agent can use tools")
+
+          print("\n🎉 All health checks passed!")
+          EOF
+
+      - name: Update deployment record
+        run: |
+          AGENT_RESOURCE_NAME=$(cat agent_resource_name.txt)
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          # Log deployment to BigQuery
+          bq query --use_legacy_sql=false "
+          INSERT INTO \`${{ secrets.GCP_PROJECT_ID_PROD }}.supreme_commander_analytics.deployments\`
+          (timestamp, agent_resource_name, commit_sha, deployed_by, environment)
+          VALUES
+          ('$TIMESTAMP', '$AGENT_RESOURCE_NAME', '${{ github.sha }}', '${{ github.actor }}', 'production')
+          " || echo "Deployment logging skipped (table may not exist)"
+
+      - name: Create deployment summary
+        run: |
+          AGENT_RESOURCE_NAME=$(cat agent_resource_name.txt)
+
+          echo "### 🎉 Production Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Agent Resource:** \`$AGENT_RESOURCE_NAME\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
+          echo "**Region:** ${{ env.REGION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Query the agent:" >> $GITHUB_STEP_SUMMARY
+          echo '```python' >> $GITHUB_STEP_SUMMARY
+          echo "from google.cloud import aiplatform" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "agent = aiplatform.ReasoningEngine('$AGENT_RESOURCE_NAME')" >> $GITHUB_STEP_SUMMARY
+          echo "response = agent.query(input='Your message here')" >> $GITHUB_STEP_SUMMARY
+          echo "print(response['output'])" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            curl -X POST $SLACK_WEBHOOK_URL \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "text":"🎉 Supreme Commander deployed to PRODUCTION successfully!",
+                "attachments":[{
+                  "color":"good",
+                  "fields":[
+                    {"title":"Commit","value":"${{ github.sha }}","short":true},
+                    {"title":"Deployed by","value":"${{ github.actor }}","short":true}
+                  ]
+                }]
+              }'
+          else
+            curl -X POST $SLACK_WEBHOOK_URL \
+              -H 'Content-Type: application/json' \
+              -d '{
+                "text":"❌ Supreme Commander PRODUCTION deployment FAILED!",
+                "attachments":[{
+                  "color":"danger",
+                  "fields":[
+                    {"title":"Commit","value":"${{ github.sha }}","short":true},
+                    {"title":"Attempted by","value":"${{ github.actor }}","short":true}
+                  ]
+                }]
+              }'
+          fi

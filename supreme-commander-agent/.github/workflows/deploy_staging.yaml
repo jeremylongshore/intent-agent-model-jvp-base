@@ -1,0 +1,135 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+  REGION: "us-central1"
+
+jobs:
+  deploy:
+    name: Deploy to Vertex AI Agent Engine (Staging)
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY_STAGING }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID_STAGING }}
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: |
+          uv pip install --system -e .
+          uv pip install --system google-cloud-aiplatform
+
+      - name: Configure Slack secrets
+        run: |
+          # Store Slack tokens in Google Secret Manager
+          echo "${{ secrets.SLACK_BOT_TOKEN }}" | gcloud secrets versions add slack-bot-token --data-file=-
+          echo "${{ secrets.SLACK_SIGNING_SECRET }}" | gcloud secrets versions add slack-signing-secret --data-file=-
+          echo "${{ secrets.SLACK_APP_TOKEN }}" | gcloud secrets versions add slack-app-token --data-file=-
+
+      - name: Deploy to Vertex AI Agent Engine
+        run: |
+          python - <<EOF
+          import os
+          from google.cloud import aiplatform
+          from google.adk.agents import Agent
+          from app.agent import supreme_commander
+
+          # Initialize Vertex AI
+          aiplatform.init(
+              project="${{ secrets.GCP_PROJECT_ID_STAGING }}",
+              location="${{ env.REGION }}",
+          )
+
+          # Deploy agent to Agent Engine
+          from google.cloud.aiplatform import reasoning_engines
+
+          deployed_agent = reasoning_engines.ReasoningEngine.create(
+              reasoning_engine=supreme_commander,
+              requirements=[
+                  "google-cloud-aiplatform>=1.60.0",
+                  "google-adk-python>=0.1.0",
+                  "slack-bolt>=1.18.0",
+                  "firebase-admin>=6.5.0",
+                  "google-cloud-discoveryengine>=0.11.0",
+                  "google-cloud-firestore>=2.16.0",
+              ],
+              display_name="supreme-commander-staging",
+              description="Supreme Commander Agent - Staging Environment",
+              extra_packages=["."],
+          )
+
+          print(f"✅ Agent deployed successfully!")
+          print(f"Resource name: {deployed_agent.resource_name}")
+
+          # Save resource name for later use
+          with open("agent_resource_name.txt", "w") as f:
+              f.write(deployed_agent.resource_name)
+          EOF
+
+      - name: Test deployed agent
+        run: |
+          AGENT_RESOURCE_NAME=$(cat agent_resource_name.txt)
+
+          python - <<EOF
+          from google.cloud import aiplatform
+
+          agent = aiplatform.ReasoningEngine("$AGENT_RESOURCE_NAME")
+
+          response = agent.query(input="System check: Are you operational?")
+          print(f"Agent response: {response}")
+
+          if "operational" in response.get("output", "").lower():
+              print("✅ Agent is operational!")
+          else:
+              print("⚠️  Agent may not be functioning correctly")
+              exit(1)
+          EOF
+
+      - name: Update deployment info
+        run: |
+          AGENT_RESOURCE_NAME=$(cat agent_resource_name.txt)
+
+          echo "### 🚀 Staging Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Agent Resource:** \`$AGENT_RESOURCE_NAME\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "**Region:** ${{ env.REGION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            curl -X POST $SLACK_WEBHOOK_URL \
+              -H 'Content-Type: application/json' \
+              -d '{"text":"✅ Supreme Commander deployed to staging successfully!"}'
+          else
+            curl -X POST $SLACK_WEBHOOK_URL \
+              -H 'Content-Type: application/json' \
+              -d '{"text":"❌ Supreme Commander staging deployment failed!"}'
+          fi
