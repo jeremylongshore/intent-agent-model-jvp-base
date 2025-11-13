@@ -1,7 +1,7 @@
 # Industry Examples Added to GitHub Pages
 
 **Created**: 2025-11-09
-**Live URL**: https://jeremylongshore.github.io/iam1-regional-manager/
+**Live URL**: https://jeremylongshore.github.io/iam-jvp-base/
 **Status**: ✅ Deployed and live
 **Commit**: 737e013
 
@@ -277,7 +277,7 @@ Just replace the IAM2/IAM3 labels with industry-specific roles!
 Architecture | Workflow | A2A Coordination | Industry Examples | Deployment
 ```
 
-**Direct link**: https://jeremylongshore.github.io/iam1-regional-manager/#industries
+**Direct link**: https://jeremylongshore.github.io/iam-jvp-base/#industries
 
 ---
 
@@ -316,7 +316,7 @@ Architecture | Workflow | A2A Coordination | Industry Examples | Deployment
 ✅ **Pitch-ready content** with costs and benefits clearly stated
 ✅ **No secrets in template** - verified safe for public repo
 
-**Live site**: https://jeremylongshore.github.io/iam1-regional-manager/
+**Live site**: https://jeremylongshore.github.io/iam-jvp-base/
 
 The GitHub Pages site now provides **visual proof** of how IAM1 adapts to real-world industries, making it perfect for client pitches and demonstrations!
 

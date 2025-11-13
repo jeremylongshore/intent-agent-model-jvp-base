@@ -10,10 +10,10 @@
 
 ## Executive Summary
 
-This directory contained the **IAM1 Regional Manager** template repository - an enterprise-grade hierarchical multi-agent system with A2A Protocol support. The project was production-ready and deployed to Google Cloud Vertex AI Agent Engine.
+This directory contained the **IAM JVP Base** template repository - an enterprise-grade hierarchical multi-agent system with A2A Protocol support. The project was production-ready and deployed to Google Cloud Vertex AI Agent Engine.
 
 ### Project Identity
-- **Project Name:** IAM1 Regional Manager (formerly "Intent Agent Model JVP Base")
+- **Project Name:** IAM JVP Base (formerly "Intent Agent Model JVP Base")
 - **Version:** 2.0.1
 - **Status:** Production-ready template repository
 - **Primary Use:** Enterprise-grade multi-agent orchestrator
@@ -57,7 +57,7 @@ This directory contained the **IAM1 Regional Manager** template repository - an 
 
 ### `/app/` - Main Agent Application (188KB)
 
-**Purpose:** Core IAM1 Regional Manager implementation using Google ADK
+**Purpose:** Core IAM JVP Base implementation using Google ADK
 
 #### Main Application Files
 
@@ -264,7 +264,7 @@ data_ingestion/
 
 **Hosting:** GitHub Pages at `https://jeremylongshore.github.io/iam1-intent-agent-model-vertex-ai/`
 
-**Note:** Repo name mismatch (template is `iam1-regional-manager` but Pages URL shows old name)
+**Note:** Repo name mismatch (template is `iam-jvp-base` but Pages URL shows old name)
 
 ---
 
@@ -350,7 +350,7 @@ data_ingestion/
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   IAM1 Regional Manager                      │
+│                   IAM JVP Base                      │
 │                   (Sovereign in Domain)                      │
 │                                                              │
 │  Capabilities:                                              │
@@ -593,7 +593,7 @@ data_ingestion/
 ## Quick Reference
 
 ### Important URLs
-- **GitHub Template:** https://github.com/IntentSolutions/iam1-regional-manager
+- **GitHub Template:** https://github.com/IntentSolutions/iam-jvp-base
 - **GitHub Pages:** https://jeremylongshore.github.io/iam1-intent-agent-model-vertex-ai/
 - **IntentSolutions:** https://intentsolutions.io
 - **A2A Protocol:** https://a2a-protocol.org/

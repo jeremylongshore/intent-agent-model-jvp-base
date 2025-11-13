@@ -179,7 +179,7 @@ cd ../..
 ```bash
 # Keep .git/ directory, commit cleanup
 git add -A
-git commit -m "Archive IAM1 Regional Manager, prepare for new project"
+git commit -m "Archive IAM JVP Base template history, prepare for new project"
 ```
 
 **Option B: Fresh Git Repository**

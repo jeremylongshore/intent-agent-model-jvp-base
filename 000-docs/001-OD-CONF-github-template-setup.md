@@ -1,18 +1,18 @@
-# GitHub Template Setup for IAM1 Regional Manager
+# GitHub Template Setup for IAM JVP Base
 
 **Created:** 2025-11-09
-**Purpose:** Convert bob-vertex-agent into a public GitHub template repository for IAM1 deployments
+**Purpose:** Convert the legacy intent-agent template into a public GitHub template repository for IAMJVP deployments
 
 ---
 
 ## Overview
 
-Transform bob-vertex-agent into **iam1-regional-manager** - a GitHub template repository that enables:
+Transform the cleaned template into **iam-jvp-base** - a GitHub template repository that enables:
 
 1. **Open Source Community**: Public template for developers to build multi-agent systems
 2. **Client Deployments**: Use template to create client-specific IAM1 instances
 3. **Base Model Sync**: Clients can pull updates from template when IAM1 improves
-4. **Marketing**: "Open source IAM1 Regional Manager with A2A Protocol support"
+4. **Marketing**: "Open source IAM JVP Base with A2A Protocol support"
 
 ---
 
@@ -43,10 +43,10 @@ Transform bob-vertex-agent into **iam1-regional-manager** - a GitHub template re
 
 ## Repository Structure
 
-### Current (bob-vertex-agent)
+### Current (iam-jvp-base)
 
 ```
-bob-vertex-agent/
+iam-jvp-base/
 ├── app/                    # IAM1 source code
 ├── deployment/             # Terraform infrastructure
 ├── data_ingestion/         # Knowledge base pipeline
@@ -57,10 +57,10 @@ bob-vertex-agent/
 └── README.md               # Documentation
 ```
 
-### Proposed (iam1-regional-manager)
+### Proposed (iam-jvp-base)
 
 ```
-iam1-regional-manager/
+iam-jvp-base/
 ├── app/                    # IAM1 source code
 │   ├── agent.py            # Main orchestrator
 │   ├── sub_agents.py       # IAM2 specialists
@@ -103,8 +103,8 @@ iam1-regional-manager/
 ### 1. Repository Name
 
 **Change:**
-- FROM: `bob-vertex-agent`
-- TO: `iam1-regional-manager`
+- FROM: `iam-jvp-base`
+- TO: `iam-jvp-base`
 
 **Git command:**
 ```bash
@@ -115,9 +115,9 @@ iam1-regional-manager/
 ### 2. Display Names
 
 **Update all references:**
-- `pyproject.toml`: `name = "iam1-regional-manager"`
-- README title: "IAM1 Regional Manager"
-- Agent card: `"name": "IntentSolutions IAM1 - Regional Manager Agent"`
+- `pyproject.toml`: `name = "iam-jvp-base"`
+- README title: "IAM JVP Base"
+- Agent card: `"name": "IntentSolutions IAM1 - JVP Base Agent"`
 - Documentation headers
 
 ### 3. Internal Code Names
@@ -140,7 +140,7 @@ iam1-regional-manager/
 ## README.md Template
 
 ```markdown
-# IAM1 Regional Manager
+# IAM JVP Base
 
 ![Version](https://img.shields.io/badge/version-2.0.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -150,7 +150,7 @@ iam1-regional-manager/
 
 ## Overview
 
-**IAM1 Regional Manager** is an open-source template for building sovereign AI agents that can:
+**IAM JVP Base** is an open-source template for building sovereign AI agents that can:
 
 - 🤖 **Orchestrate IAM2 Specialists** - Command subordinate agents (Research, Code, Data, Slack)
 - 🤝 **Coordinate with Peer IAM1s** - Cross-domain collaboration via A2A Protocol
@@ -195,7 +195,7 @@ make deploy
 
 ```
 ┌─────────────────────────────────────────┐
-│  IAM1 (Regional Manager)                │
+│  IAM1 (JVP Base)                │
 │  - Sovereign in domain                  │
 │  - Coordinates with peer IAM1s (A2A)    │
 │  - Commands IAM2 subordinates           │
@@ -349,8 +349,8 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
 # Clone repository
-git clone https://github.com/IntentSolutions/iam1-regional-manager.git
-cd iam1-regional-manager
+git clone https://github.com/IntentSolutions/iam-jvp-base.git
+cd iam-jvp-base
 
 # Install dependencies
 uv sync
@@ -365,8 +365,8 @@ make deploy
 
 ## Community
 
-- [GitHub Discussions](https://github.com/IntentSolutions/iam1-regional-manager/discussions) - Questions and ideas
-- [Issue Tracker](https://github.com/IntentSolutions/iam1-regional-manager/issues) - Bug reports and feature requests
+- [GitHub Discussions](https://github.com/IntentSolutions/iam-jvp-base/discussions) - Questions and ideas
+- [Issue Tracker](https://github.com/IntentSolutions/iam-jvp-base/issues) - Bug reports and feature requests
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute
 
 ## License
@@ -395,7 +395,7 @@ When you improve the base IAM1 template, how do deployed instances get updates?
 ### Solution: Git Remote Upstream
 
 **Strategy:**
-1. Template repo: `IntentSolutions/iam1-regional-manager` (upstream)
+1. Template repo: `IntentSolutions/iam-jvp-base` (upstream)
 2. Client repo: `client-a/sales-iam1` (forked/templated from upstream)
 3. Client adds upstream remote and merges updates selectively
 
@@ -404,14 +404,14 @@ When you improve the base IAM1 template, how do deployed instances get updates?
 **Initial Deployment (Client):**
 ```bash
 # Use GitHub template to create new repo
-# https://github.com/IntentSolutions/iam1-regional-manager/generate
+# https://github.com/IntentSolutions/iam-jvp-base/generate
 
 # Clone client-specific repo
 git clone https://github.com/client-a/sales-iam1.git
 cd sales-iam1
 
 # Add upstream template as remote
-git remote add upstream https://github.com/IntentSolutions/iam1-regional-manager.git
+git remote add upstream https://github.com/IntentSolutions/iam-jvp-base.git
 
 # Customize for client
 # ... client-specific changes ...
@@ -464,7 +464,7 @@ jobs:
 
       - name: Add upstream remote
         run: |
-          git remote add upstream https://github.com/IntentSolutions/iam1-regional-manager.git
+          git remote add upstream https://github.com/IntentSolutions/iam-jvp-base.git
           git fetch upstream
 
       - name: Check for updates
@@ -494,7 +494,7 @@ jobs:
 
 ## Overview
 
-Your IAM1 instance is based on the **IntentSolutions/iam1-regional-manager** template. When the template improves, you can pull updates into your deployment.
+Your IAM1 instance is based on the **IntentSolutions/iam-jvp-base** template. When the template improves, you can pull updates into your deployment.
 
 ## Setup (One-time)
 
@@ -502,7 +502,7 @@ Add the template as an upstream remote:
 
 ```bash
 cd your-iam1-repo
-git remote add upstream https://github.com/IntentSolutions/iam1-regional-manager.git
+git remote add upstream https://github.com/IntentSolutions/iam-jvp-base.git
 git fetch upstream
 ```
 
@@ -623,7 +623,7 @@ make deploy
 
 Issues with template updates? Contact IntentSolutions support:
 - Email: jeremy@intentsolutions.io
-- GitHub Issues: https://github.com/IntentSolutions/iam1-regional-manager/issues
+- GitHub Issues: https://github.com/IntentSolutions/iam-jvp-base/issues
 ```
 
 ---
@@ -632,8 +632,8 @@ Issues with template updates? Contact IntentSolutions support:
 
 ### 1. Repository Rebranding (This Week)
 
-- [ ] Create new GitHub repository: `iam1-regional-manager`
-- [ ] Migrate code from `bob-vertex-agent`
+- [ ] Create new GitHub repository: `iam-jvp-base`
+- [ ] Migrate code from `iam-jvp-base`
 - [ ] Update all branding references
 - [ ] Enable template repository setting
 - [ ] Add topics and description
@@ -665,7 +665,7 @@ Issues with template updates? Contact IntentSolutions support:
 
 - [ ] Announce on social media (LinkedIn, Twitter)
 - [ ] Post to relevant communities (Reddit r/MachineLearning, Hacker News)
-- [ ] Write blog post: "Open Source IAM1 Regional Manager"
+- [ ] Write blog post: "Open Source IAM JVP Base"
 - [ ] Create demo video
 - [ ] Submit to awesome-lists (awesome-ai-agents, awesome-multi-agent-systems)
 

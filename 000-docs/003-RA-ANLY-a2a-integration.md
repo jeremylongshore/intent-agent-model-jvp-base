@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-The Agent2Agent (A2A) Protocol is an open standard enabling communication between independent AI agent systems. Integrating A2A into the IAM1 (Regional Manager) architecture would enable **peer-to-peer coordination** between multiple IAM1 agents deployed across different clients and domains.
+The Agent2Agent (A2A) Protocol is an open standard enabling communication between independent AI agent systems. Integrating A2A into the IAM1 (JVP Base) architecture would enable **peer-to-peer coordination** between multiple IAM1 agents deployed across different clients and domains.
 
 **Current State:**
 - IAM1 can **command** IAM2 subordinates (internal routing)
@@ -66,8 +66,8 @@ Agents publish a JSON Agent Card declaring:
 {
   "agent": {
     "id": "iam1-sales-client-a",
-    "name": "Sales Regional Manager",
-    "description": "IAM1 Regional Manager for Sales domain",
+    "name": "Sales JVP Base",
+    "description": "IAM JVP Base for Sales domain",
     "version": "2.0.1",
     "provider": {
       "name": "IntentSolutions",
@@ -113,7 +113,7 @@ Agents publish a JSON Agent Card declaring:
 
 ```
 ┌─────────────────────────────────────────┐
-│  IAM1 (Regional Manager)                │
+│  IAM1 (JVP Base)                │
 │  - Sovereign in domain                  │
 │  - Commands IAM2 subordinates           │
 │  - NO peer coordination (missing A2A)   │
@@ -130,7 +130,7 @@ Agents publish a JSON Agent Card declaring:
 
 ### Current Routing Implementation
 
-**File:** `bob-vertex-agent/app/agent.py`
+**File:** `iam-jvp-base/app/agent.py`
 
 ```python
 def route_to_agent(task_type: str, query: str) -> str:
@@ -150,7 +150,7 @@ def route_to_agent(task_type: str, query: str) -> str:
 
 ### Current Dependencies
 
-**File:** `bob-vertex-agent/pyproject.toml`
+**File:** `iam-jvp-base/pyproject.toml`
 
 ```toml
 dependencies = [
@@ -240,7 +240,7 @@ dependencies = [
 
 ### Phase 1: Add A2A SDK Dependency
 
-**Update:** `bob-vertex-agent/pyproject.toml`
+**Update:** `iam-jvp-base/pyproject.toml`
 
 ```toml
 dependencies = [
@@ -253,20 +253,20 @@ dependencies = [
 
 **Install:**
 ```bash
-cd /home/jeremy/000-projects/bobs-brain/bob-vertex-agent
+cd /home/jeremy/000-projects/iam-jvp-base/iam-jvp-base
 uv add "a2a-sdk~=0.3.9" "nest-asyncio>=1.6.0,<2.0.0"
 ```
 
 ### Phase 2: Create Agent Card
 
-**New File:** `bob-vertex-agent/app/agent_card.json`
+**New File:** `iam-jvp-base/app/agent_card.json`
 
 ```json
 {
   "agent": {
-    "id": "iam1-regional-manager",
-    "name": "IntentSolutions IAM1 - Regional Manager Agent",
-    "description": "Sovereign Regional Manager AI agent with multi-domain coordination capabilities",
+    "id": "iam-jvp-base",
+    "name": "IntentSolutions IAM1 - JVP Base Agent",
+    "description": "Sovereign JVP Base AI agent with multi-domain coordination capabilities",
     "version": "2.0.1",
     "tier": "IAM1",
     "provider": {
@@ -338,7 +338,7 @@ uv add "a2a-sdk~=0.3.9" "nest-asyncio>=1.6.0,<2.0.0"
 
 ### Phase 3: Implement A2A Tool for IAM1 Routing
 
-**New File:** `bob-vertex-agent/app/a2a_tools.py`
+**New File:** `iam-jvp-base/app/a2a_tools.py`
 
 ```python
 """A2A Protocol integration for IAM1 peer coordination."""
@@ -360,7 +360,7 @@ def coordinate_with_peer_iam1(domain: str, request: str) -> str:
     """
     Coordinate with a peer IAM1 agent in another domain via A2A Protocol.
 
-    Use this when you need information or assistance from another IAM1 regional manager.
+    Use this when you need information or assistance from another IAM JVP base.
     This is for PEER COORDINATION (not subordinate delegation).
 
     Args:
@@ -429,7 +429,7 @@ def coordinate_with_peer_iam1(domain: str, request: str) -> str:
 # Tool metadata for ADK registration
 COORDINATE_TOOL_METADATA = {
     "name": "coordinate_with_peer_iam1",
-    "description": """Coordinate with a peer IAM1 regional manager in another domain.
+    "description": """Coordinate with a peer IAM JVP base in another domain.
 
     Use this for IAM1-to-IAM1 peer coordination (NOT for commanding subordinates).
     Example domains: engineering, sales, operations, marketing.
@@ -440,7 +440,7 @@ COORDINATE_TOOL_METADATA = {
 
 ### Phase 4: Update IAM1 Agent with A2A Tool
 
-**Update:** `bob-vertex-agent/app/agent.py`
+**Update:** `iam-jvp-base/app/agent.py`
 
 ```python
 from google.adk.agents import Agent
@@ -455,8 +455,8 @@ from app.agent_card import AGENT_CARD
 instruction = f"""You are {AGENT_CARD['product_name']}, version {AGENT_CARD['version']}.
 
 IDENTITY & ROLE:
-You are IAM1 - a Regional Manager AI agent, sovereign within your domain.
-You can coordinate with peer IAM1s (other regional managers) via A2A Protocol.
+You are IAM1 - a JVP Base AI agent, sovereign within your domain.
+You can coordinate with peer IAM1s (other JVP bases) via A2A Protocol.
 You can command and delegate to IAM2 specialist agents who report to you.
 
 DECISION FRAMEWORK:
@@ -500,7 +500,7 @@ root_agent = Agent(
 
 Vertex AI Agent Engine already exposes HTTP endpoints. The A2A server functionality would need to be added as a middleware layer:
 
-**New File:** `bob-vertex-agent/app/a2a_server.py`
+**New File:** `iam-jvp-base/app/a2a_server.py`
 
 ```python
 """A2A Protocol server for IAM1 agent exposure."""
@@ -622,7 +622,7 @@ export IAM1_A2A_API_KEY="shared-secret-key-for-a2a-coordination"
 
 ### Unit Tests
 
-**New File:** `bob-vertex-agent/tests/test_a2a_tools.py`
+**New File:** `iam-jvp-base/tests/test_a2a_tools.py`
 
 ```python
 """Unit tests for A2A tools."""
@@ -713,8 +713,8 @@ def test_cross_domain_coordination():
 
 ```bash
 # Deploy Engineering IAM1 to separate project
-cd /home/jeremy/000-projects/bobs-brain/bob-vertex-agent-engineering
-export PROJECT_ID=bobs-brain-engineering
+cd /home/jeremy/000-projects/iam-jvp-base/iam-jvp-base-engineering
+export PROJECT_ID=iam-jvp-base-engineering
 export DOMAIN=engineering
 make deploy
 ```
@@ -723,10 +723,10 @@ make deploy
 
 ```bash
 # Deploy Sales IAM1 with Engineering peer configured
-cd /home/jeremy/000-projects/bobs-brain/bob-vertex-agent-sales
-export PROJECT_ID=bobs-brain-sales
+cd /home/jeremy/000-projects/iam-jvp-base/iam-jvp-base-sales
+export PROJECT_ID=iam-jvp-base-sales
 export DOMAIN=sales
-export IAM1_ENGINEERING_URL=$(gcloud run services describe bob-vertex-agent --project bobs-brain-engineering --region us-central1 --format "value(status.url)")
+export IAM1_ENGINEERING_URL=$(gcloud run services describe iam-jvp-base --project iam-jvp-base-engineering --region us-central1 --format "value(status.url)")
 make deploy
 ```
 

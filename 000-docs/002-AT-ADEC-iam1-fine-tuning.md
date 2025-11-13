@@ -8,7 +8,7 @@
 
 ## Overview
 
-Fine-tuned Bob/IAM1 (Regional Manager) to improve decision-making, delegation, and multi-agent orchestration based on the IntentSolutions business model.
+Fine-tuned Bob/IAM1 (JVP Base) to improve decision-making, delegation, and multi-agent orchestration based on the IntentSolutions business model.
 
 ---
 
@@ -17,10 +17,10 @@ Fine-tuned Bob/IAM1 (Regional Manager) to improve decision-making, delegation, a
 ### 1. Enhanced IAM1 Instruction (app/agent.py)
 
 **Before**: Generic "master orchestrator" with basic team description
-**After**: Clear IAM1 (Regional Manager) identity with business model understanding
+**After**: Clear IAM1 (JVP Base) identity with business model understanding
 
 **Improvements**:
-- ✅ Explicitly identifies as IAM1 (Regional Manager) sovereign in domain
+- ✅ Explicitly identifies as IAM1 (JVP Base) sovereign in domain
 - ✅ Clarifies peer coordination (can coordinate with IAM1s, cannot command)
 - ✅ Defines hierarchical command structure (can command IAM2s)
 - ✅ Separates standalone vs management capabilities from agent card
@@ -104,7 +104,7 @@ Fine-tuned Bob/IAM1 (Regional Manager) to improve decision-making, delegation, a
 
 ### Deployment:
 - **Method**: Vertex AI Agent Engine update
-- **Project**: bobs-brain
+- **Project**: iam-jvp-base
 - **Region**: us-central1
 - **Agent ID**: 5828234061910376448
 - **Deployment Time**: ~3-5 minutes
@@ -234,4 +234,4 @@ Post-deployment, monitor for:
 ---
 
 **Deployment Status**: 🚀 In Progress
-**View Console**: https://console.cloud.google.com/vertex-ai/agents/locations/us-central1/agent-engines/5828234061910376448/playground?project=bobs-brain
+**View Console**: https://console.cloud.google.com/vertex-ai/agents/locations/us-central1/agent-engines/5828234061910376448/playground?project=iam-jvp-base

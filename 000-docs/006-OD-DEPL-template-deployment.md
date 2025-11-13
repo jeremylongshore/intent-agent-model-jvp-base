@@ -1,7 +1,7 @@
-# IAM1 Regional Manager - GitHub Template Deployment
+# IAM JVP Base - GitHub Template Deployment
 
 **Created**: 2025-11-09
-**Repository**: https://github.com/jeremylongshore/iam1-regional-manager
+**Repository**: https://github.com/jeremylongshore/iam-jvp-base
 **Status**: ✅ Live and ready for use
 
 ---
@@ -30,7 +30,7 @@
   - Enterprise Services ($500/mo)
 
 ### 3. Repository Setup
-- ✅ Created repository: `iam1-regional-manager`
+- ✅ Created repository: `iam-jvp-base`
 - ✅ Enabled as GitHub template repository
 - ✅ Added 8 relevant topics for discoverability:
   - `ai-agent`, `multi-agent-system`, `vertex-ai`
@@ -42,7 +42,7 @@
 
 ## Repository Details
 
-**URL**: https://github.com/jeremylongshore/iam1-regional-manager
+**URL**: https://github.com/jeremylongshore/iam-jvp-base
 **Template**: Enabled (users can click "Use this template")
 **License**: MIT (to be added)
 **Branch**: master
@@ -51,7 +51,7 @@
 ### What's Included
 
 ```
-iam1-regional-manager/
+iam-jvp-base/
 ├── app/                        # IAM1 agent implementation
 │   ├── agent.py                # Main orchestrator with A2A
 │   ├── a2a_tools.py            # Peer coordination function
@@ -79,12 +79,12 @@ iam1-regional-manager/
 ### 1. Create New Repository from Template
 ```bash
 # Via GitHub web interface:
-# 1. Go to https://github.com/jeremylongshore/iam1-regional-manager
+# 1. Go to https://github.com/jeremylongshore/iam-jvp-base
 # 2. Click "Use this template"
 # 3. Create new repository
 
 # Via GitHub CLI:
-gh repo create my-iam1 --template jeremylongshore/iam1-regional-manager --public
+gh repo create my-iam1 --template jeremylongshore/iam-jvp-base --public
 cd my-iam1
 ```
 
@@ -106,7 +106,7 @@ make deploy
 ### 3. Sync Upstream Updates
 ```bash
 # Add upstream remote (one-time setup)
-git remote add upstream https://github.com/jeremylongshore/iam1-regional-manager.git
+git remote add upstream https://github.com/jeremylongshore/iam-jvp-base.git
 
 # Pull latest updates from template
 git fetch upstream
@@ -124,7 +124,7 @@ When deploying for a paid client:
 
 ### 1. Clone Your Template
 ```bash
-gh repo create client-name-iam1 --template jeremylongshore/iam1-regional-manager --private
+gh repo create client-name-iam1 --template jeremylongshore/iam-jvp-base --private
 cd client-name-iam1
 ```
 
@@ -210,7 +210,7 @@ To test peer-to-peer IAM1 coordination:
 ### 1. Deploy Second IAM1
 ```bash
 # Create another instance
-gh repo create engineering-iam1 --template jeremylongshore/iam1-regional-manager --private
+gh repo create engineering-iam1 --template jeremylongshore/iam-jvp-base --private
 cd engineering-iam1
 export PROJECT_ID=engineering-gcp-project
 make deploy
@@ -255,7 +255,7 @@ IAM1: [Uses coordinate_with_peer_iam1 tool]
 
 ## Support & Resources
 
-- **Repository**: https://github.com/jeremylongshore/iam1-regional-manager
+- **Repository**: https://github.com/jeremylongshore/iam-jvp-base
 - **Documentation**: See `/docs` directory in repo
 - **Setup Guide**: `claudes-docs/GITHUB-TEMPLATE-SETUP.md`
 - **A2A Analysis**: `claudes-docs/analysis/A2A-INTEGRATION-ANALYSIS.md`
@@ -264,7 +264,7 @@ IAM1: [Uses coordinate_with_peer_iam1 tool]
 
 ## Summary
 
-✅ **IAM1 Regional Manager template is live on GitHub**
+✅ **IAM JVP Base template is live on GitHub**
 ✅ **Developers can use it for free (open source)**
 ✅ **You use it for paid client deployments**
 ✅ **Upgrade sync built-in via git upstream**
@@ -277,5 +277,5 @@ IAM1: [Uses coordinate_with_peer_iam1 tool]
 ---
 
 **Generated**: 2025-11-09
-**Repository**: https://github.com/jeremylongshore/iam1-regional-manager
+**Repository**: https://github.com/jeremylongshore/iam-jvp-base
 **Status**: Ready for use

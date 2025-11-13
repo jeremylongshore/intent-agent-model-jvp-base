@@ -1,7 +1,7 @@
-# GitHub Pages Deployment - IAM1 Regional Manager
+# GitHub Pages Deployment - IAM JVP Base
 
 **Created**: 2025-11-09
-**Live Site**: https://jeremylongshore.github.io/iam1-regional-manager/
+**Live Site**: https://jeremylongshore.github.io/iam-jvp-base/
 **Status**: ✅ Live and rendering beautifully
 
 ---
@@ -100,7 +100,7 @@ docs/index.html
 
 ### Enabled Settings
 - **Source**: `master` branch, `/docs` folder
-- **URL**: https://jeremylongshore.github.io/iam1-regional-manager/
+- **URL**: https://jeremylongshore.github.io/iam-jvp-base/
 - **HTTPS**: Enforced
 - **Build Type**: Legacy (static HTML)
 - **Public**: Yes
@@ -167,7 +167,7 @@ The site walks visitors through:
 - **Load Time**: < 2 seconds on average connection
 
 ### SEO Optimization
-- **Title**: IAM1 Regional Manager - Architecture & Workflow
+- **Title**: IAM JVP Base - Architecture & Workflow
 - **Meta Description**: Via GitHub Pages default
 - **Semantic HTML**: Proper heading hierarchy
 - **Links**: All external links with `target="_blank"`
@@ -324,7 +324,7 @@ README.md                                          # Added Interactive Docs link
 ## Summary
 
 GitHub Pages is now **live and fully functional** at:
-**https://jeremylongshore.github.io/iam1-regional-manager/**
+**https://jeremylongshore.github.io/iam-jvp-base/**
 
 The site features:
 - ✅ **6 interactive Mermaid diagrams** showing complete architecture
@@ -346,6 +346,6 @@ Perfect for:
 
 ---
 
-**Live Site**: https://jeremylongshore.github.io/iam1-regional-manager/
-**Repository**: https://github.com/jeremylongshore/iam1-regional-manager
+**Live Site**: https://jeremylongshore.github.io/iam-jvp-base/
+**Repository**: https://github.com/jeremylongshore/iam-jvp-base
 **Status**: Production Ready

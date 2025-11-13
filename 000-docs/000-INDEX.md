@@ -1,10 +1,10 @@
-# DOCUMENT INDEX - IAM1 Regional Manager
+# DOCUMENT INDEX - IAM JVP Base
 
 **Auto-generated inventory of project documentation**
 
-**Last Updated:** 2025-11-09
-**Project:** iam1-intent-agent-model1-vertex-ai-engine
-**Total Documents:** 7
+**Last Updated:** 2025-11-17
+**Project:** intent-agent-model-jvp-base
+**Total Documents:** 8
 
 ---
 
@@ -19,13 +19,14 @@
 | 005 | OD | DEPL | 005-OD-DEPL-github-pages.md | GitHub Pages deployment configuration |
 | 006 | OD | DEPL | 006-OD-DEPL-template-deployment.md | Template repository deployment |
 | 007 | RA | REPT | 007-RA-REPT-industry-examples.md | Industry examples added to GitHub Pages |
+| 008 | AT | RELE | 008-AT-RELE-iamjvp-launch.md | Launch notes for IAMJVP commander scaffold |
 
 ---
 
 ## Category Summary
 
 - **OD** (Operations & Deployment): 3 documents
-- **AT** (Architecture & Technical): 1 document
+- **AT** (Architecture & Technical): 2 documents
 - **RA** (Reports & Analysis): 2 documents
 - **PP** (Product & Planning): 1 document
 
@@ -39,6 +40,7 @@
 - **PLAN** (Plan/Planning Document): 1 document
 - **DEPL** (Deployment Guide/Log): 2 documents
 - **REPT** (General Report): 1 document
+- **RELE** (Release Notes): 1 document
 
 ---
 

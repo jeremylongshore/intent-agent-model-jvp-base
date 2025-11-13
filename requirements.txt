@@ -1,0 +1,6 @@
+google-genai[adk]>=0.6.0  # TODO(ask): pin to exact version from manuals
+google-cloud-aiplatform[adk,agent_engines]>=1.112.0
+a2a-sdk>=0.3.4
+uvicorn[standard]>=0.30.0
+google-cloud-discoveryengine>=1.5.0
+cloudpickle>=3.0.0
